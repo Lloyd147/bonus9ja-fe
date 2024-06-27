@@ -1,15 +1,13 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import Table from '@/components/Table/index';
-import { Offer } from '@/components/TabCards/index';
-import { getCookie } from '@/lib/cookies';
-import { API_ENDPOINT } from '@/lib/constants';
 import FormContainer from '@/components/FormContainer';
-import { useDispatch } from 'react-redux';
+import { Offer } from '@/components/TabCards/index';
+import Table from '@/components/Table/index';
+import { API_ENDPOINT } from '@/lib/constants';
 import { getBookies } from '@/lib/utils';
 import { setBookies } from '@/redux/features/bookiesSlice';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const AdminOffers = () => {
   const dispatch = useDispatch();
@@ -20,8 +18,6 @@ const AdminOffers = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const token = getCookie('token') && JSON.parse(getCookie('token') as any);
-  const { push } = useRouter();
   const pageSize = 100;
   const loadMoreOffers = () => {
     setPageNumber(pageNumber + 1);
@@ -33,37 +29,29 @@ const AdminOffers = () => {
   }, [offers]);
 
   useEffect(() => {
-    if (!token && typeof window !== 'undefined') {
-      push('/admin/login');
-    }
-  }, []);
+    setIsLoading(true);
+    axios
+      .get(`${API_ENDPOINT}/offers`, {
+        params: {
+          pageNumber,
+          pageSize,
+          disabled: true
+        }
+      })
+      .then((response: { data: { offers: Offer[] } }) => {
+        const newOffers = response?.data?.offers;
 
-  useEffect(() => {
-    if (token) {
-      setIsLoading(true);
-      axios
-        .get(`${API_ENDPOINT}/offers`, {
-          params: {
-            pageNumber,
-            pageSize,
-            disabled: true
-          }
-        })
-        .then((response: { data: { offers: Offer[] } }) => {
-          const newOffers = response?.data?.offers;
-
-          if (newOffers.length === 0) {
-            setHasMore(false);
-          } else {
-            setOffers([...offers, ...newOffers] as any);
-          }
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          console.error('Error fetching offers:', error);
-          setIsLoading(false);
-        });
-    }
+        if (newOffers.length === 0) {
+          setHasMore(false);
+        } else {
+          setOffers([...offers, ...newOffers] as any);
+        }
+        setIsLoading(false);
+      })
+      .catch((error: any) => {
+        console.error('Error fetching offers:', error);
+        setIsLoading(false);
+      });
   }, [pageNumber]);
 
   const handleEdit = (id: string) => {
@@ -76,7 +64,7 @@ const AdminOffers = () => {
 
   return (
     <>
-      {token && (
+      {
         <>
           {addNew ? (
             <>
@@ -119,7 +107,7 @@ const AdminOffers = () => {
             </>
           )}
         </>
-      )}
+      }
     </>
   );
 };
