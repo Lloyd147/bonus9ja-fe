@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import TabCardOpen from '../TabCardOpen/index';
 import { checkHTTPProtocol } from '@/lib/utils';
+import Link from 'next/link';
 interface Logo {
   cloudinaryId: string;
   imageUrl: string;
@@ -52,7 +53,7 @@ const TabCard = (props: Props) => {
       <div className="container__content">
         <div className="tab_sub-number">{data?.order}</div>
         <div className="tab_sub_container">
-          <a className="tab_item_container" href={checkHTTPProtocol(`${data?.playLink}`)} target="blank">
+          <Link className="tab_item_container" href={checkHTTPProtocol(`${data?.playLink}`)} target="blank">
             <img src={data?.logo?.imageUrl} className="tab-container_img" />
             <div className="mt-10 ml-10">
               <div className="offer-name">{data?.name}</div>
@@ -64,11 +65,11 @@ const TabCard = (props: Props) => {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
           <div className="tab_item_container-2">{data?.promoInfo}</div>
-          <a className="tab_item_container_3" href={checkHTTPProtocol(`${data?.playLink}`)} target="blank">
+          <Link className="tab_item_container_3" href={checkHTTPProtocol(`${data?.playLink}`)} target="blank">
             PLAY NOW
-          </a>
+          </Link>
         </div>
         <div className="tab_item_container-2-mbl">{data?.promoInfo}</div>
         {isOpen && <TabCardOpen keyInfo={keyInfo} review={data?.review} tcs={data?.terms} pros={data?.pros} cons={data?.cons} />}

@@ -4,14 +4,14 @@ import { Offer } from '@/components/TabCards/index';
 import { DragDropContext, Droppable, Draggable, DropResult, DraggableProvided, DraggableStateSnapshot, DroppableProvided, DroppableStateSnapshot } from 'react-beautiful-dnd';
 
 interface LinksDraggableProps {
-  items: any[];
-  setItems: React.Dispatch<React.SetStateAction<any>>;
+  items: Offer[];
+  setItems: React.Dispatch<React.SetStateAction<Offer[]>>;
   name?: string;
   setSelectedId?: React.Dispatch<React.SetStateAction<string>>;
   selectedId?: string;
   handleEdit?: (id: string) => void;
-  Component: any;
-  onDragComplete?: any;
+  Component: React.ComponentType<any>;
+  onDragComplete?: (id: string, newIndex: number) => void;
   saving?: boolean;
 }
 
@@ -50,17 +50,9 @@ const LinksDraggable: React.FC<LinksDraggableProps> = ({ items, setItems, select
               {items?.map((item, index) => (
                 <Draggable key={item?._id} draggableId={item?._id} index={index}>
                   {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
-                    <div ref={provided.innerRef} {...provided.draggableProps}>
+                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <div style={{ pointerEvents: saving ? 'none' : 'all' }}>
-                        <Component
-                          data={{ ...item, index }}
-                          dragHandleProps={provided.dragHandleProps}
-                          setSelectedId={setSelectedId}
-                          selectedId={selectedId}
-                          handleEdit={handleEdit}
-                          items={items}
-                          setItems={setItems}
-                        />
+                        <Component data={{ ...item, index }} setSelectedId={setSelectedId} selectedId={selectedId} handleEdit={handleEdit} items={items} setItems={setItems} />
                       </div>
                     </div>
                   )}

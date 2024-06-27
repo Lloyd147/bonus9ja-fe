@@ -64,50 +64,38 @@ const AdminOffers = () => {
 
   return (
     <>
-      {
+      {addNew ? (
         <>
-          {addNew ? (
-            <>
-              <FormContainer
-                setIsOpen={setAddNew}
-                setFilterOffer={setFilterOffer}
-                filterOffer={filterOffer!}
-                selectedId={selectedId}
-                setOffers={setOffers}
-                offers={offers}
-                setSelectedId={setSelectedId}
-              />
-            </>
-          ) : (
-            <>
-              <div className="wrapper">
-                <div className="button-row">
-                  <h1>All Bookies</h1>
-                  <button
-                    onClick={() => {
-                      selectedId == '' && setAddNew(true);
-                    }}
-                  >
-                    Add New
-                  </button>
-                </div>
-              </div>
-              <div className="table-data">
-                <Table
-                  offers={offers}
-                  isLoading={isLoading}
-                  loadMoreOffers={loadMoreOffers}
-                  hasMore={hasMore}
-                  setOffers={setOffers}
-                  setSelectedId={setSelectedId}
-                  selectedId={selectedId}
-                  handleEdit={handleEdit}
-                />
-              </div>
-            </>
-          )}
+          <FormContainer setIsOpen={setAddNew} setFilterOffer={setFilterOffer} filterOffer={filterOffer!} selectedId={selectedId} setOffers={setOffers} offers={offers} setSelectedId={setSelectedId} />
         </>
-      }
+      ) : (
+        <>
+          <div className="wrapper">
+            <div className="button-row">
+              <h1>All Bookies</h1>
+              <button
+                onClick={() => {
+                  selectedId == '' && setAddNew(true);
+                }}
+              >
+                Add New
+              </button>
+            </div>
+          </div>
+          <div className="table-data">
+            <Table
+              offers={offers}
+              isLoading={isLoading}
+              loadMoreOffers={loadMoreOffers}
+              hasMore={hasMore}
+              setOffers={setOffers}
+              setSelectedId={setSelectedId}
+              selectedId={selectedId}
+              handleEdit={handleEdit}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };
