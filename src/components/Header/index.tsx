@@ -30,6 +30,9 @@ const Header = () => {
                 <Link href="/admin/odds" className={pathname === '/admin/odds' ? 'link-item --active' : 'link-item'}>
                   Odds
                 </Link>
+                <Link href="/admin/footer" className={pathname === '/admin/footer' ? 'link-item --active' : 'link-item'}>
+                  Footer
+                </Link>
                 <div className="auth-links">
                   <div className="link-item" onClick={handleLogout}>
                     Logout
