@@ -1,30 +1,25 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import OddsForm from '../OddsForm';
-import AdminOddsTable from '../AdminOddsTable';
-import { Fixture } from '@/types/commonTypes';
-import { useDispatch } from 'react-redux';
-import { setEditId, setOdds } from '@/redux/features/fixturesFormSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { getCookie } from '@/lib/cookies';
-import { useRouter } from 'next/navigation';
-import { Offer } from '../TabCards';
-import { setBookies } from '@/redux/features/bookiesSlice';
-import { getBookies } from '@/lib/utils';
-import axios from 'axios';
 import { API_ENDPOINT } from '@/lib/constants';
+import { getBookies } from '@/lib/utils';
+import { setBookies } from '@/redux/features/bookiesSlice';
+import { setEditId, setOdds } from '@/redux/features/fixturesFormSlice';
+import { RootState } from '@/redux/store';
+import { Fixture } from '@/types/commonTypes';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AdminOddsTable from '../AdminOddsTable';
+import OddsForm from '../OddsForm';
+import { Offer } from '../TabCards';
 
 interface AdminOddsProps {
   offers: Offer[];
 }
 
 const AdminOdds = ({ offers }: AdminOddsProps) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const editId = useSelector((state: RootState) => state.fixturesFormState.editId);
   const oddsFromState = useSelector((state: RootState) => state.fixturesFormState.odds);
-  const token = getCookie('token');
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
@@ -54,10 +49,6 @@ const AdminOdds = ({ offers }: AdminOddsProps) => {
   useEffect(() => {
     editId ? setShowForm(true) : setShowForm(false);
   }, [editId]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !token) router.push('/admin/login');
-  }, []);
 
   const handleClick = () => {
     setShowForm(!showForm);
