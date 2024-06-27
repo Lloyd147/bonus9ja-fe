@@ -1,6 +1,6 @@
 .footer-options {
   margin-top: 50px;
-  .row {
+  .footer-row {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -24,6 +24,7 @@
     .body__option {
       .edit-icon {
         width: 15px;
+        cursor: pointer;
       }
     }
   }
