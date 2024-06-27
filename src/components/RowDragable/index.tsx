@@ -4,8 +4,8 @@ import { Offer } from '@/components/TabCards/index';
 import { DragDropContext, Droppable, Draggable, DropResult, DraggableProvided, DraggableStateSnapshot, DroppableProvided, DroppableStateSnapshot } from 'react-beautiful-dnd';
 
 interface LinksDraggableProps {
-  items: Offer[];
-  setItems: React.Dispatch<React.SetStateAction<Offer[]>>;
+  items: any[];
+  setItems: any;
   name?: string;
   setSelectedId?: React.Dispatch<React.SetStateAction<string>>;
   selectedId?: string;
