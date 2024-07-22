@@ -4,6 +4,7 @@
 @import '/src/components/Table/Table-styles.scss';
 @import '/src/app/admin/offers/offers-styles.scss';
 @import '/src/app/admin/login/Login-styles.scss';
+@import '/src/app/admin/footer/footer-styles.scss';
 @import '/src/app/admin/signup/SignUp-styles.scss';
 @import '/src/components/Blogs/Blog-styles.scss';
 @import '/src/components/Cards/Card-styles.scss';
@@ -14,7 +15,7 @@
 @import '/src/components/TabCardOpen/TabCardsOpen-styles.scss';
 @import '/src/components/TabCards/TabCard-styles.scss';
 @import '/src/components/Toogle/Toogle-styles.scss';
-@import '/src/components/Toogle/Toogle-styles.scss';
+@import '/src/components/AdminFooter//footer.scss';
 @import '/src/app/blog/Blog-styles.scss';
 @import 'src/app/bet/Bet-styles.scss';
 @import 'src/components/CustomSelect/CustomSelect-styles.scss';
@@ -31,7 +32,7 @@
 @import 'src/components/BetsSection/BetsSection-styles.scss';
 @import 'src/components/OddsForm/OddsForm-styles.scss';
 @import 'src/components/ToggleSwitch/ToggleSwitch-styles.scss';
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 // CSS reset
 *,
 *::before,
@@ -63,6 +64,8 @@
 
 // Global styles
 body {
+  font-family: 'Inter', sans-serif;
+
   button {
     margin: 0;
     display: flex;

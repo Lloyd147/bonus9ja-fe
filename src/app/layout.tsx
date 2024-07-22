@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <Providers>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={`${inter.className} hww`}>
           <ToastContainer autoClose={1500} />
           <NavBar />
           {children}

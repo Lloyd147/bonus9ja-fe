@@ -5,7 +5,8 @@ import { API_ENDPOINT } from '@/lib/constants';
 import TabCard, { Offer } from '../TabCards';
 import { removeCookie } from '@/lib/cookies';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import Footer from '@/components/Footer/index';
+import { findItemByKey } from '@/lib/utils';
 interface OffersProps {
   initialOffers: Offer[];
 }
@@ -44,6 +45,25 @@ const Offers = ({ initialOffers }: OffersProps) => {
         });
   }, [pageNumber]);
 
+  const [footers, setFooters] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}/footer//footers`)
+      .then((response: { data: any }) => {
+        const footers = response?.data;
+        //  dispatch(setOdds(odds));
+        setFooters(footers);
+      })
+      .catch((error: any) => {
+        console.log('Odds error: ', error);
+      });
+    const blogs = JSON.parse(localStorage.getItem('blogs')!);
+  }, []);
+
+  const item = findItemByKey(footers, 'name', 'Bookies Footer');
+  const itemAllFooters = findItemByKey(footers, 'name', 'Set All Footers');
+
   return (
     <InfiniteScroll
       dataLength={offers.length}
@@ -56,6 +76,7 @@ const Offers = ({ initialOffers }: OffersProps) => {
       }
     >
       {offers?.length > 0 && offers?.map((data, index) => <TabCard data={data} key={index} data-index={index} />)}
+      {item?.status == 'active' ? <Footer data={item} /> : itemAllFooters?.status == 'active' ? <Footer data={itemAllFooters} /> : null}
     </InfiniteScroll>
   );
 };

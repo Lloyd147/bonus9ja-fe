@@ -8,6 +8,10 @@ import { RootState } from '@/redux/store';
 import { sortingOptions } from '@/lib/constants';
 import DayFilter from '../DayFilter';
 import { getDateForFilters, getLeagueOptions } from '@/lib/utils';
+import Footer from '../Footer/index';
+import axios from 'axios';
+import { API_ENDPOINT } from '@/lib/constants';
+import { findItemByKey } from '@/lib/utils';
 
 const BetsSection = () => {
   const dispatch = useDispatch();
@@ -26,6 +30,24 @@ const BetsSection = () => {
 
   const leagueDefaultValue = { label: currentFilters.league === '*' ? 'All' : currentFilters.league, value: currentFilters.league };
 
+  const [footers, setFooters] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_ENDPOINT}/footer//footers`)
+      .then((response: { data: any }) => {
+        const footers = response?.data;
+        //  dispatch(setOdds(odds));
+        setFooters(footers);
+      })
+      .catch((error: any) => {
+        console.log('Odds error: ', error);
+      });
+    const blogs = JSON.parse(localStorage.getItem('blogs')!);
+  }, []);
+
+  const item = findItemByKey(footers, 'name', 'Odds footer');
+  const itemAllFooters = findItemByKey(footers, 'name', 'Set All Footers');
   return (
     <div className="bets-section">
       <div className="filters">
@@ -41,6 +63,7 @@ const BetsSection = () => {
         </div>
       </div>
       <BetsList />
+      {item?.status == 'active' ? <Footer data={item} /> : itemAllFooters?.status == 'active' ? <Footer data={itemAllFooters} /> : null}
     </div>
   );
 };

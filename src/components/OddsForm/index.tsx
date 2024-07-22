@@ -68,10 +68,10 @@ const OddsForm = ({ setShowForm }: OddsFormProps) => {
     odds: getOddsInitialValues(bookieNames)
   };
 
-  const { setFieldValue, handleChange, handleSubmit, values, errors, setValues } = useFormik({
+  const { setFieldValue, handleChange, handleSubmit, values, errors, setValues }: any = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values: any) => {
       updateFixture(values);
     }
   });
@@ -111,7 +111,7 @@ const OddsForm = ({ setShowForm }: OddsFormProps) => {
 
   useEffect(() => {
     if (editId) {
-      const oddData = odds.find((item) => item._id === editId);
+      const oddData = odds.find((item: any) => item._id === editId);
       const formData = getDataForForm(oddData, bookieNames);
       setValues(formData as Fixture);
     }
@@ -146,7 +146,7 @@ const OddsForm = ({ setShowForm }: OddsFormProps) => {
       setSaving(true);
       try {
         await axios.delete(`${API_ENDPOINT}/odds/${editId}`, { headers });
-        const filteredOdds = odds.filter((item) => item._id !== editId);
+        const filteredOdds = odds.filter((item: any) => item._id !== editId);
         dispatch(setOdds(filteredOdds));
         toast.success('Odd deleted');
         resetState();
@@ -228,7 +228,7 @@ const OddsForm = ({ setShowForm }: OddsFormProps) => {
                 value={values.odds[bookieName]?.oneX?.awayWin}
                 onChange={handleChange}
               />
-              <ToggleSwitch id={`odds.${bookieName}.suspended`} name={`odds.${bookieName}.suspended`} checked={values.odds[bookieName].suspended} onChange={handleChange} />
+              <ToggleSwitch id={`odds.${bookieName}.suspended`} name={`odds.${bookieName}.suspended`} checked={values.odds[bookieName].suspended} onChange={(e: any) => handleChange(e)} />
             </div>
           </div>
         ))}
