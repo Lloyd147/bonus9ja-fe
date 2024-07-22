@@ -44,7 +44,6 @@ const FooterForm = (props: any) => {
       axios
         .get(`${API_ENDPOINT}/footer/${formId}`, { headers })
         .then((response: { data: any }) => {
-          console.log('responsee', response);
           setInitialValues((prev) => {
             return {
               ...prev,
@@ -52,7 +51,7 @@ const FooterForm = (props: any) => {
 
               links:
                 response.data.followUs.length != 0
-                  ? response.data.followUs.map((item) => {
+                  ? response.data.followUs.map((item: any) => {
                       return { name: item.link, icon: null, preview: item?.icon?.imageUrl || null };
                     })
                   : [
@@ -64,20 +63,20 @@ const FooterForm = (props: any) => {
                     ],
               pageLinks:
                 response.data.pageLinks.length != 0
-                  ? response.data.pageLinks.map((item) => {
+                  ? response.data.pageLinks.map((item: any) => {
                       return { name: item.link };
                     })
                   : [{ name: '' }, { name: '' }, { name: '' }, { name: '' }, { name: '' }, { name: '' }],
               accordianSections:
                 response.data.accordians[0].items.length != 0
-                  ? response.data.accordians[0].items.map((item) => {
+                  ? response.data.accordians[0].items.map((item: any) => {
                       return { title: item.title, expandedText: item.text };
                     })
                   : [{ title: '', expandedText: '' }],
               title: response.data.accordians[0].mainTitle,
               otherSections:
                 response.data.otherText.length != 0
-                  ? response.data.otherText.map((item) => {
+                  ? response.data.otherText.map((item: any) => {
                       return { title: item.title, expandedText: item.text, icon: null, preview: item?.icon?.imageUrl || null };
                     })
                   : [{ title: '', icon: null, expandedText: '' }]
@@ -103,12 +102,12 @@ const FooterForm = (props: any) => {
     initialValues,
     enableReinitialize: true,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values: any) => {
       updateFooterDetail(values);
     }
   });
 
-  const updateFooterDetail = (values: FormData) => {
+  const updateFooterDetail = (values: any) => {
     const formData = new FormData();
     const headers = {
       'x-auth-token': token,
@@ -116,10 +115,10 @@ const FooterForm = (props: any) => {
     };
 
     formData.append('status', 'active');
-    formData.append('name', values.name);
+    formData.append('name', values?.name);
 
-    formData.append('accordians[mainTitle]', values.title);
-    values.links.forEach((link, index) => {
+    formData.append('accordians[mainTitle]', values?.title);
+    values.links.forEach((link: any, index: any) => {
       if (link.name) {
         formData.append(`followUs[${index}][link]`, link.name);
       }
@@ -127,13 +126,13 @@ const FooterForm = (props: any) => {
         formData.append(`followUs[${index}][icon]`, link.icon);
       }
     });
-    values.pageLinks.forEach((link, index) => {
+    values.pageLinks.forEach((link: any, index: any) => {
       if (link.name) {
         formData.append(`pageLinks[${index}][link]`, link.name);
       }
     });
 
-    values.accordianSections.forEach((link, index) => {
+    values.accordianSections.forEach((link: any, index: any) => {
       if (link.title) {
         formData.append(`accordians[items][${index}][title]`, link.title);
       }
@@ -141,7 +140,7 @@ const FooterForm = (props: any) => {
         formData.append(`accordians[items][${index}][text]`, link.expandedText);
       }
     });
-    values.otherSections.forEach((link, index) => {
+    values.otherSections.forEach((link: any, index: any) => {
       if (link.title) {
         formData.append(`otherText[${index}][title]`, link.title);
       }
@@ -168,22 +167,22 @@ const FooterForm = (props: any) => {
     setFieldValue('accordianSections', [...values.accordianSections, { title: '', expandedText: '' }]);
   };
 
-  const handleDeleteAccordianSection = (index) => {
+  const handleDeleteAccordianSection = (index: any) => {
     const copySection = [...values.accordianSections];
     copySection.splice(index, 1);
     setFieldValue('accordianSections', copySection);
   };
 
-  const handleAddNewTextSection = (title: String, icon: String, expandedText: String) => {
+  const handleAddNewTextSection = () => {
     setFieldValue('otherSections', [...values.otherSections, { title: '', icon: null, expandedText: '' }]);
   };
-  const handleDeleteNewTextSection = (index) => {
+  const handleDeleteNewTextSection = (index: any) => {
     const copySection = [...values.otherSections];
     copySection.splice(index, 1);
     setFieldValue('otherSections', copySection);
   };
 
-  const handleIconChange = (event, index, type) => {
+  const handleIconChange = (event: any, index: any, type: any) => {
     const updatedLinks = [...values[type]];
     updatedLinks[index].icon = event.currentTarget.files[0];
     setFieldValue(type, updatedLinks);
@@ -202,7 +201,7 @@ const FooterForm = (props: any) => {
       <div className="form-container">
         <>
           <div className="header-form">Follow us</div>
-          {values.links.map(({ name, icon, preview }, index) => (
+          {values.links.map(({ name, icon, preview }: { name: string; icon: any; preview: string }, index: any) => (
             <div className="first-row1">
               <div className="form-group1">
                 <label htmlFor="rating" className="rating">
@@ -212,7 +211,7 @@ const FooterForm = (props: any) => {
               </div>
               <div className="logo-icon">
                 <label>Icon:</label>
-                {console.log(icon ? filterOffer?.logo?.imageUrl : preview ? preview : null, 'khurram', preview)}
+
                 <ImageUploader
                   name="logo"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -228,7 +227,7 @@ const FooterForm = (props: any) => {
             <div className="key-info-inputs">
               <div className="header-form">Page Links</div>
               <div className="inputs__group1">
-                {values.pageLinks.map(({ name }, index) => (
+                {values.pageLinks.map(({ name }: { name: any }, index: any) => (
                   <div className="group__input1">
                     <label>Link{index + 1}:</label>
                     <input type="text" onChange={handleChange} id={`pageLinks.${index}].name`} name={`pageLinks.${index}.name`} value={values.pageLinks[index].name} />
@@ -244,7 +243,7 @@ const FooterForm = (props: any) => {
               <div>Title</div>
               <input type="text" onChange={handleChange} id={`title`} name={`title`} value={values.title} className="title-input " />
             </div>
-            {values.accordianSections.map(({}, index) => (
+            {values.accordianSections.map(({}, index: any) => (
               <>
                 <div className="accordian">
                   <div className="accordian-title">
@@ -261,9 +260,11 @@ const FooterForm = (props: any) => {
                   </div>
                   {index != 0 && (
                     <div className="delete" onClick={() => handleDeleteAccordianSection(index)}>
-                      <svg class="delete-icon" viewBox="0 0 24 24">
-                        <path d="M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19M8.46,11.88L9.87,10.47L12,12.59L14.12,10.47L15.53,11.88L13.41,14L15.53,16.12L14.12,17.53L12,15.41L9.88,17.53L8.47,16.12L10.59,14L8.46,11.88M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z"></path>
-                      </svg>
+                      <div className="delete-icon">
+                        <svg viewBox="0 0 24 24">
+                          <path d="M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19M8.46,11.88L9.87,10.47L12,12.59L14.12,10.47L15.53,11.88L13.41,14L15.53,16.12L14.12,17.53L12,15.41L9.88,17.53L8.47,16.12L10.59,14L8.46,11.88M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z"></path>
+                        </svg>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -273,7 +274,6 @@ const FooterForm = (props: any) => {
                     <div>Expanded Text</div>
                   </div>
                   <textarea
-                    type="text"
                     className="accordian-text-area"
                     onChange={handleChange}
                     id={`accordianSections.${index}.expandedText`}
@@ -290,7 +290,7 @@ const FooterForm = (props: any) => {
             </div>
           </div>
           <div className="header-form">Other Text</div>
-          {values.otherSections.map(({ icon, preview }, index) => (
+          {values.otherSections.map(({ icon, preview }: any, index: any) => (
             <>
               <div className="other-text">
                 <div>Other Text {index + 1} - Title</div>
@@ -306,13 +306,14 @@ const FooterForm = (props: any) => {
                   />
                 </div>
                 <div className="delete" onClick={() => handleDeleteNewTextSection(index)}>
-                  <svg class="delete-icon" viewBox="0 0 24 24">
-                    <path d="M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19M8.46,11.88L9.87,10.47L12,12.59L14.12,10.47L15.53,11.88L13.41,14L15.53,16.12L14.12,17.53L12,15.41L9.88,17.53L8.47,16.12L10.59,14L8.46,11.88M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z"></path>
-                  </svg>
+                  <div className="delete-icon">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19M8.46,11.88L9.87,10.47L12,12.59L14.12,10.47L15.53,11.88L13.41,14L15.53,16.12L14.12,17.53L12,15.41L9.88,17.53L8.47,16.12L10.59,14L8.46,11.88M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
               <textarea
-                type="text"
                 onChange={handleChange}
                 className="accordian-text-area"
                 id={`otherSections.${index}.expandedText`}
@@ -322,7 +323,7 @@ const FooterForm = (props: any) => {
             </>
           ))}
 
-          <div className="add-new-section-label" onClick={handleAddNewTextSection}>
+          <div className="add-new-section-label" onClick={(e: any) => handleAddNewTextSection()}>
             <img src="/images/plus.png" alt="" />
             <div>Add Another Text Section</div>
           </div>

@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 interface ToggleSwitchProps {
   id: string;
   name: string;
-  checked: string;
-  handleGetFooters: () => void;
+  checked: any;
+  onChange: (e: React.ChangeEvent<any>) => any;
 }
 const token = getCookie('token') && JSON.parse(getCookie('token') as any);
 
-const ToggleSwitch = ({ name, id, handleGetFooters, checked }: ToggleSwitchProps) => {
+const ToggleSwitch = ({ name, id, onChange, checked }: ToggleSwitchProps) => {
   const headers = {
     'x-auth-token': token
   };
@@ -30,7 +30,7 @@ const ToggleSwitch = ({ name, id, handleGetFooters, checked }: ToggleSwitchProps
     axios
       .put(`${API_ENDPOINT}/footer/${id}/status`, { status: e.target.checked ? 'active' : 'inactive' }, { headers })
       .then((response: any) => {
-        handleGetFooters();
+        onChange(e);
 
         toast.success('status is updated successfull');
       })
@@ -41,7 +41,7 @@ const ToggleSwitch = ({ name, id, handleGetFooters, checked }: ToggleSwitchProps
   };
   return (
     <label className={`toggle-button ${status ? 'active' : ''}`}>
-      <input type="checkbox" name={name} id={id} onChange={handleChange} checked={status} />
+      <input type="checkbox" name={name} id={id} onChange={(e: any) => handleChange(e)} checked={status} />
       <div className="toggle-button-slider"></div>
     </label>
   );

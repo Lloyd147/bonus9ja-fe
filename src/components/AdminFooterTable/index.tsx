@@ -51,7 +51,7 @@ const AdminFooterTable = (props: any) => {
           {footers.reverse().map(({ name, status, _id }) => (
             <div className="options__body footer-row">
               <div className="body__option footer-cell">
-                <ToggleSwitch checked={status} id={_id} handleGetFooters={handleGetFooters} />
+                <ToggleSwitch name={name} checked={status} id={_id} onChange={handleGetFooters} />
               </div>
               <div className="body__option footer-cell">{name}</div>
               <div className="body__option footer-cell" onClick={() => setShowFormId(_id)}>

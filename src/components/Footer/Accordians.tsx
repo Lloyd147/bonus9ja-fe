@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-function Accordians({ title, text }) {
+function Accordians({ title, text }: { title: string; text: string }) {
   const [expand, setExpand] = useState(false);
 
   return (

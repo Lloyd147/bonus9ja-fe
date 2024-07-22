@@ -2,7 +2,7 @@ import React from 'react';
 import Accordians from './Accordians';
 import { useRouter } from 'next/navigation';
 
-function Footer({ data }) {
+function Footer({ data }: { data: any }) {
   const { push } = useRouter();
 
   return (
@@ -17,7 +17,7 @@ function Footer({ data }) {
             <img src="/images/svg/flag.svg" alt="" />
           </div>
           <div className="follow-icons">
-            {data?.followUs.map((item) => (
+            {data?.followUs.map((item: any) => (
               <a target="_blank" href={item?.link} rel="noopener noreferrer">
                 <img className="follow-icon" src={item?.icon?.imageUrl} onClick={() => push('/admin/login')} alt="" />
               </a>
@@ -25,16 +25,16 @@ function Footer({ data }) {
           </div>
         </div>
         <div className="page-links">
-          {data?.pageLinks.map((item) => (
+          {data?.pageLinks.map((item: any) => (
             <div className="fifty-per">{item?.link}</div>
           ))}
         </div>
         <div>{data?.accordians[0]?.mainTitle}</div>
-        {data?.accordians[0]?.items.map(({ title, text }) => (
+        {data?.accordians[0]?.items.map(({ title, text }: { title: string; text: string }) => (
           <Accordians title={title} text={text} />
         ))}
 
-        {data?.otherText.map((item) => (
+        {data?.otherText.map((item: any) => (
           <div className="other-products">
             <div className="other-product">
               <img className="other-text-icon" src={item?.icon?.imageUrl} alt="" />
