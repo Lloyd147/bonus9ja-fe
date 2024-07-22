@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ImageUploaderProps {
   name: string;
@@ -9,6 +9,10 @@ interface ImageUploaderProps {
 
 function ImageUploader({ name, onChange, preview = null }: ImageUploaderProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(preview);
+
+  useEffect(() => {
+    setImagePreview(preview);
+  }, [preview]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(e);

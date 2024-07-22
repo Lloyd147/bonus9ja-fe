@@ -1,4 +1,3 @@
-import React from 'react';
 import { API_ENDPOINT } from '../lib/constants';
 import Offers from '@/components/Offers';
 
@@ -13,6 +12,7 @@ export default async function Home() {
         <div className="nav_banner_heading">Top Sports Betting Bonuses</div>
         <div className="nav_banner_para">Bet smarter – become a winner with Bonus9ja</div>
       </div>
+
       <Offers initialOffers={initialOffers || []} />
     </>
   );

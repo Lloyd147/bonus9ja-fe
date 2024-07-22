@@ -33,6 +33,9 @@ export function getCurrentWeekDays() {
   return weekDays;
 }
 
+export function findItemByKey(array: any, key: any, value: any) {
+  return array.find((item: any) => item[key] === value);
+}
 export function getDateAndTime(dateString: string) {
   const date = new Date(dateString);
 
