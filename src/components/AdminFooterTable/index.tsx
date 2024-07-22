@@ -23,7 +23,7 @@ const AdminFooterTable = (props: any) => {
   const handleGetFooters = () => {
     axios
       .get(`${API_ENDPOINT}/footer`, { headers })
-      .then((response: { data: { odds: any } }) => {
+      .then((response: any) => {
         const footers = response?.data;
         setFooters(footers);
       })
