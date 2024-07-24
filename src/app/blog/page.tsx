@@ -28,7 +28,7 @@ const Blog = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}/footer//footers`)
+      .get(`${API_ENDPOINT}/footer/footers`)
       .then((response: { data: any }) => {
         const footers = response?.data;
         //  dispatch(setOdds(odds));

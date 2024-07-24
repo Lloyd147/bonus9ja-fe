@@ -34,7 +34,7 @@ const BetsSection = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_ENDPOINT}/footer//footers`)
+      .get(`${API_ENDPOINT}/footer/footers`)
       .then((response: { data: any }) => {
         const footers = response?.data;
         //  dispatch(setOdds(odds));
