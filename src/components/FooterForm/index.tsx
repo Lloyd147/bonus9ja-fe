@@ -24,6 +24,14 @@ const FooterForm = (props: any) => {
   const [loading, setLoading] = useState(false);
   const { filterOffer, formId, setShowFormId } = props;
 
+  function ensureArrayLength(array: any, item: any, length: any) {
+    while (array.length < length) {
+      array.push(item);
+    }
+
+    return array;
+  }
+
   const [initialValues, setInitialValues] = useState({
     links: [
       { name: '', icon: null, preview: null },
@@ -33,7 +41,14 @@ const FooterForm = (props: any) => {
       { name: '', icon: null, preview: null }
     ],
 
-    pageLinks: [{ name: '' }, { name: '' }, { name: '' }, { name: '' }, { name: '' }, { name: '' }],
+    pageLinks: [
+      { name: '', link: '' },
+      { name: '', link: '' },
+      { name: '', link: '' },
+      { name: '', link: '' },
+      { name: '', link: '' },
+      { name: '', link: '' }
+    ],
     accordianSections: [{ title: '', expandedText: '' }],
     otherSections: [{ title: '', icon: null, expandedText: '', preview: null }],
     title: ''
@@ -49,24 +64,20 @@ const FooterForm = (props: any) => {
               ...prev,
               name: response.data.name,
 
-              links:
-                response.data.followUs.length != 0
-                  ? response.data.followUs.map((item: any) => {
-                      return { name: item.link, icon: null, preview: item?.icon?.imageUrl || null };
-                    })
-                  : [
-                      { name: '', icon: null },
-                      { name: '', icon: null },
-                      { name: '', icon: null },
-                      { name: '', icon: null },
-                      { name: '', icon: null }
-                    ],
-              pageLinks:
-                response.data.pageLinks.length != 0
-                  ? response.data.pageLinks.map((item: any) => {
-                      return { name: item.link };
-                    })
-                  : [{ name: '' }, { name: '' }, { name: '' }, { name: '' }, { name: '' }, { name: '' }],
+              links: ensureArrayLength(
+                response.data.followUs.map((item: any) => {
+                  return { name: item?.link, icon: null, preview: item?.icon?.imageUrl || null };
+                }),
+                { name: '', icon: null, preview: null },
+                5
+              ),
+              pageLinks: ensureArrayLength(
+                response.data.pageLinks.map((item: any) => {
+                  return { link: item.link, name: item.name };
+                }),
+                { name: '', link: '' },
+                6
+              ),
               accordianSections:
                 response.data.accordians[0].items.length != 0
                   ? response.data.accordians[0].items.map((item: any) => {
@@ -92,7 +103,7 @@ const FooterForm = (props: any) => {
   const validationSchema = Yup.object().shape({
     links: Yup.array().of(
       Yup.object().shape({
-        name: Yup.string().required('Required')
+        name: Yup.string()
         // icon: Yup.string().required('Required')
       })
     )
@@ -127,8 +138,11 @@ const FooterForm = (props: any) => {
       }
     });
     values.pageLinks.forEach((link: any, index: any) => {
+      if (link.link) {
+        formData.append(`pageLinks[${index}][link]`, link.link);
+      }
       if (link.name) {
-        formData.append(`pageLinks[${index}][link]`, link.name);
+        formData.append(`pageLinks[${index}][name]`, link.name);
       }
     });
 
@@ -228,10 +242,16 @@ const FooterForm = (props: any) => {
               <div className="header-form">Page Links</div>
               <div className="inputs__group1">
                 {values.pageLinks.map(({ name }: { name: any }, index: any) => (
-                  <div className="group__input1">
-                    <label>Link{index + 1}:</label>
-                    <input type="text" onChange={handleChange} id={`pageLinks.${index}].name`} name={`pageLinks.${index}.name`} value={values.pageLinks[index].name} />
-                  </div>
+                  <>
+                    <div className="group__input1">
+                      <label>Name{index + 1}:</label>
+                      <input type="text" onChange={handleChange} id={`pageLinks.${index}].name`} name={`pageLinks.${index}.name`} value={values.pageLinks[index].name} />
+                    </div>
+                    <div className="group__input1">
+                      <label>Link{index + 1}:</label>
+                      <input type="text" onChange={handleChange} id={`pageLinks.${index}].link`} name={`pageLinks.${index}.link`} value={values.pageLinks[index].link} />
+                    </div>
+                  </>
                 ))}
               </div>
             </div>
