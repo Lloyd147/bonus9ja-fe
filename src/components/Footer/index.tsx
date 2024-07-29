@@ -26,7 +26,9 @@ function Footer({ data }: { data: any }) {
         </div>
         <div className="page-links">
           {data?.pageLinks.map((item: any) => (
-            <div className="fifty-per">{item?.link}</div>
+            <a target="_blank" className="fifty-per" href={item?.link} rel="noopener noreferrer">
+              {item.name}
+            </a>
           ))}
         </div>
         <div>{data?.accordians[0]?.mainTitle}</div>
